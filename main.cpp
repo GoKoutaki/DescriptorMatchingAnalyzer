@@ -287,7 +287,6 @@ int main(int argc, char **argv){
 		}
 	}
 	descriptor1 = ndescriptor1;
-	//descriptor2 = ndescriptor2;
 
 
 	vector<SIdx> detect_overlaps;
@@ -319,7 +318,6 @@ int main(int argc, char **argv){
 		t.i1 = i;
 		t.i2 = min_j;
 		t.S  = ratio;
-		//printf("%d:%d=%f\n", i, min_j,ratio);
 		detect_overlaps.push_back(t);
 	}
 
@@ -421,27 +419,6 @@ ENDL2:
 
 	int reason_n = 0;
 
-	/*
-	for(int i = 0;i < overlaps.size();i++){
-		int i1, i2;
-		i1 = overlaps[i].i1;
-		i2 = overlaps[i].i2;
-		int r1 = round(keypoints1[i1].size / 2);
-		if(keypoints1[i1].pt.x > r1 && keypoints1[i1].pt.y > r1
-			&& keypoints1[i1].pt.x < w1-r1 && keypoints1[i1].pt.y < h1-r1
-			)
-			circle(outimg, keypoints1[i1].pt, r1, Scalar(0,0,255), 1.5, CV_AA);
-		int r2 = round(keypoints2[i2].size / 2);
-		if(
-			keypoints2[i2].pt.x > r2 && keypoints2[i2].pt.y > r2 &&
-			keypoints2[i2].pt.x < (w2-r2) && keypoints2[i2].pt.y < (h2 - r2)
-			){
-
-			circle(outimg, keypoints2[i2].pt+ Point2f(w1, 0), r2, Scalar(0,0,255), 1.5, CV_AA);
-		}
-	}
-	*/
-
 	for(int i = 0;i < detect_overlaps.size();i++){
 		int i1, i2;
 		i1 = detect_overlaps[i].i1;
@@ -469,8 +446,7 @@ ENDL2:
 			}
 		}
 	}
-//	imshow("result", outimg);
-//	cv::waitKey(0);
+
 	char outfile[256];
 	sprintf(outfile, "%s/result.png", report_dir);
 	imwrite(outfile, outimg);
@@ -501,11 +477,7 @@ ENDL2:
 
 
 	fprintf(rp, "<H2 bgcolor=black><font color=blue>Blue: Correct  </font><font color=red>Red: False   </font><font color=orange>Yellow: Mismatch  </font><br><br></H2><H2>Left:%d keypoints, Right:%d keypoints<br>\nReference correspondings = %d<br>\nDetected correspondings = %d<br>\nCorrect number =%d<br>\n<br>Recall=%.2f, 1-Precision=%.2f<br></H2>", keypoints1.size(), keypoints1.size(), overlaps.size(), detect_overlaps.size(), correct_n, recall , precision);
-	/*
-<map name="top">
-<area shape="rect" coords="120,120,210,155" href="./">
-</map>
-	*/
+
 	// gen ROC curve
 	roc.draw(tbl_precision,tbl_recall,tbl_n);
 	sprintf(outfile, "%s/roc.png", report_dir);
@@ -581,8 +553,6 @@ ENDL2:
 			float desc_d = detect_overlaps[i].S;
 			printf("center distance = %f\n", distance);
 			printf("descrptor distance = %f\n", desc_d);
-			// imshow("cores", reason);
-			//printf("%d:%d\n", i1, i2);
 
 			char txt[256];
 			sprintf(txt, "%s/img%03d.png", report_dir, reason_n);
@@ -638,8 +608,6 @@ ENDL2:
 			fprintf(rp, "</tr>\n");
 
 			reason_n++;
-
-			//cv::waitKey(0);
 			
 
 		}
